@@ -47,3 +47,7 @@ if __name__ == '__main__':
     main()
 
 # See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+#Не получается установить библиотеку в конкретный проект!
+#у меня не срабатывает в терминале : source venv/bin/activate
+#ссылка на скрин: disk.yandex.ru...Gd3f9RuWYg
