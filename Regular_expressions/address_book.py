@@ -47,55 +47,111 @@ def phone(a):
   new_pattern_phone = r'+7(\2)\3-\4-\5 \7\8'
   result = re.sub(pattern_phone, new_pattern_phone, a)
   return result
-print(phone(text))
+# print(phone(text))
 
 # поиск ФИО
 def FIO(f):
-  pattern_FIO = r'[A-ZА-ЯЁ]{1}[a-zа-яё]+[ ,]'
-  result_FIO = re.findall(pattern_FIO, text)
+  pattern_FIO = r'\w+'
+  # pattern_FIO = r'[A-ZА-ЯЁa-zа-яё]+[, ]'
+  result_FIO = re.findall(pattern_FIO, f)
 # pattern_FIO_sub = r'[A-ZА-ЯЁ]{1}[a-zа-яё]+[,]'
 # result_FIO_sub = re.sub(pattern_FIO, pattern_FIO_sub, text)
   return result_FIO
 # print(result_FIO_sub)
 # print(FIO(text))
+
 # поиск организации и должности
 pattern_ORG = r'[ ,]'
 
 ##### основной блок
-new_list = list()
+new_list_book = list()
 for i in contacts_list:
+  new_list1 = list()
   result_name = ' '.join(i[:3])
   result_name_re = FIO(result_name)
-
-  print(result_name)
-  # new_list.append(result_name)
-  new_list1 = [result_name_re, i[3], i[4], phone(i[5]), i[6]]
+  # new_list1 = [result_name_re, i[3], i[4], phone(i[5]), i[6]]
+  new_list1 += result_name_re
+  new_list1.append(i[3])
+  new_list1.append(i[4])
+  new_list1.append(phone(i[5]))
+  new_list1.append(i[6])
   # print(new_list1)
-  new_list.append(new_list1)
-# print(new_list)
-
-#Объединить все дублирующиеся записи о человеке в одну
-new_list2 = list()
+  new_list_book.append(new_list1)
+# print(new_list_book)
 
 
+# #Объединить все дублирующиеся записи о человеке в одну
+new_list_book2 = new_list_book.copy()
+# print(new_list_book2)
+new_list_book3 = list()
 
-# for i in contacts_list:
-#   for j in i:
-#     result = re.sub(pattern_phone, new_pattern_phone, j)
-#     pprint(result)
+# for i in range(len(new_list_book)):
+#   if new_list_book[i][0] == new_list_book[i+1][0]:
+#     result =  new_list_book[i] + list(set(new_list_book[i+1]) - set(new_list_book[i]))
+#     new_list_book3.append(result)
+#   else:
+#     new_list_book3.append(new_list_book[i])
+#   print(new_list_book3)
 
+for name in new_list_book:
+  for name2 in new_list_book2:
+    if name not in new_list_book3 and name[0] == name2[0]:
+      result =  name + list(set(name2) - set(name))
+      new_list_book3.append(result)
+      new_list_book2.pop(new_list_book2.index(name2))
+    elif name in new_list_book3 and name[0] == name2[0]:
+      new_list_book3.remove(name)
+      result =  name + list(set(name2) - set(name))
+      new_list_book3.append(result)
+      new_list_book2.pop(new_list_book2.index(name2))
+print(new_list_book3)
+
+
+dict_book = {x[0]:x[1:] for x in new_list_book}
+# print(dict_book)
+
+
+# for key, value in dict_book.items():
+#   for name in new_list_book:
+#     if name[0] == key:
+#       # dict_book[key] = name[1:]
+#       # result = value + list(set(name[1:]) - set(value))
+#       result = set(value + name[1:])
+#       dict_book2[key] = result
 #
-#     result_list = list()
-#     for i in contacts:
-#         if i not in result_list:
-#             result_list.append(i)
+# print(dict_book2)
+
+# for key, value in dict_book.items():
+#   for name in new_list_book:
+#     if name[0] == key:
+#       # dict_book[key] = name[1:]
+#       # result = value + list(set(name) - set(value))
+#       result = set(value + name)
+#       new_list_book3.append(result)
 #
-#     return result_list
+# print(new_list_book3)
+
+# a = [1, 2, 2]
+# c = [2, 3]
+# z = a + c
+# b = set(a)
+# print(b)
+# print(z)
 
 ## 2. Сохраните получившиеся данные в другой файл.
 ## Код для записи файла в формате CSV:
-# with open("phonebook.csv", "w") as f:
-#   datawriter = csv.writer(f, delimiter=',')
+with open("phonebook.csv", "w", encoding = 'utf-8') as f:
+  datawriter = csv.writer(f, delimiter=',')
+  datawriter.writerows(new_list_book)
 
-## Вместо contacts_list подставьте свой список:
-# datawriter.writerows(contacts_list)
+# #удалить все дубликаты
+# first_list = [1, 2, 2, 5]
+# second_list = [2, 5, 7, 9]
+# result = list(set(first_list + second_list))
+# print(result)
+#
+# # удалить элементы из второго списка, которые есть в первом
+# first_list = [1, 2, 2, 5]
+# second_list = [2, 2, 5, 7, 9]
+# result = first_list + list(set(second_list) - set(first_list))
+# print(result)

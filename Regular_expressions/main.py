@@ -27,3 +27,15 @@ pattern3 = 'регулярн[а-яё]+\s+выражен[а-яё]+'
 result = re.findall(pattern3, text)
 print(result)
 
+#удалить все дубликаты
+first_list = [1, 2, 2, 5]
+second_list = [2, 5, 7, 9]
+result = list(set(first_list + second_list))
+print(result)
+
+# удалить элементы из второго списка, которые есть в первом
+first_list = [1, 2, 2, 5]
+second_list = [2, 2, 5, 7, 9]
+result = first_list + list(set(second_list) - set(first_list))
+print(result)
+
