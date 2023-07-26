@@ -157,7 +157,7 @@ print(new_list_book5)
 
 ## 2. Сохраните получившиеся данные в другой файл.
 ## Код для записи файла в формате CSV:
-with open("phonebook1.csv", "w") as f:
+with open("phonebook2.csv", "w") as f:
   datawriter = csv.writer(f, delimiter=',')
   datawriter.writerows(new_list_book5)
 
