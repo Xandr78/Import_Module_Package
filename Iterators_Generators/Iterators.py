@@ -45,7 +45,7 @@ if __name__ == '__main__':
     list_iter_instance = FlatIterator(list_of_lists_1)
     for z in list_iter_instance:
         print(z)
-    # test_1()
+    test_1()
 
 # A = [[1, 2, 3], [4, 5], [6, 7, 8, 9]]
 # print(len(sum(A,[])))

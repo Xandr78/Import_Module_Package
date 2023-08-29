@@ -16,8 +16,9 @@ def find_job():
     for job in jobs:
         vacancy_name = job.h3.span.a.text
 #з\п никак не выводится???
-        salary = job.find(attrs={'data-qa':'vacancy-serp__vacancy-compensation'})
-
+        # salary = job.find(attrs={'data-qa':'vacancy-serp__vacancy-compensation'})
+        if job.find('span', class_="bloko-header-section-2") is not None:
+            salary = job.find('span', class_="bloko-header-section-2").get_text()
         company = job.find('div',class_='vacancy-serp-item__meta-info-company').a.text
         town_html = job.find('div',class_='vacancy-serp-item__info')
         town = town_html.find(attrs={'data-qa':'vacancy-serp__vacancy-address'}).text
@@ -32,6 +33,7 @@ def find_job():
         pattern = r'>([A-Za-z]+)<'
         result_skills = re.findall(pattern, skills_string, flags=re.IGNORECASE)
         result_skills_str = ', '.join(map(str, result_skills))
+        # print(result_skills_str)
 
 #выборка вакансий по необходимым навыкам:
         count = 0
@@ -45,6 +47,7 @@ def find_job():
                     skills_list.append(f'Город: {town}')
                     skills_list.append(f'Ссылка: {url}')
                     skills_list.append(f'З\п: {salary}')
+                    skills_list.append(f'Требуемые навыки: {result_skills_str}')
                     dict_skills[vacancy_name] = skills_list
                     list_jobs.append(dict_skills)
 
@@ -55,5 +58,5 @@ def find_job():
 
 #точка входа:
 if __name__=='__main__':
-    required_skills = ['python']
+    required_skills = ["Django", "Flask"]
     find_job()
