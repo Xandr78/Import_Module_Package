@@ -35,4 +35,4 @@ if __name__ == '__main__':
     FG = flat_generator(list_of_lists_1)
     for i in FG:
         print(i)
-    # test_2()
+    test_2()
